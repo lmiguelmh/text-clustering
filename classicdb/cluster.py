@@ -83,6 +83,8 @@ print("%d documents" % len(dataset.data))
 print("%d categories" % len(dataset.target_names))
 print()
 
+#print(dataset.data[0])
+
 labels = dataset.target
 unique_labels = np.unique(labels)
 true_k = unique_labels.shape[0]
@@ -108,12 +110,25 @@ t0 = time()
 #                              min_df=2, stop_words='english',
 #                              use_idf=opts.use_idf)
 vectorizer = TfidfVectorizer(stop_words='english')
+
 X = vectorizer.fit_transform(dataset.data)
 # # returns X : sparse matrix, [n_samples, n_features]
 #
 print("done in %fs" % (time() - t0))
 print("n_samples: %d, n_features: %d" % X.shape)
 print()
+
+terms = vectorizer.get_feature_names()
+print("feature terms:")
+print(terms[0:100])
+print()
+
+
+# from sklearn.metrics.pairwise import cosine_similarity
+# dist = 1 - cosine_similarity(tfidf_matrix)
+
+
+
 #
 # if opts.n_components:
 #     print("Performing dimensionality reduction using LSA")
@@ -143,7 +158,7 @@ print()
 # km = MiniBatchKMeans(n_clusters=true_k, init='k-means++', n_init=1,
 #                      init_size=1000, batch_size=1000, verbose=opts.verbose)
 km = MiniBatchKMeans(n_clusters=true_k, init='k-means++', n_init=1,
-                     init_size=1000, batch_size=1000, verbose=True)
+                     init_size=1000, batch_size=1000, verbose=False)
 # else:
 #     km = KMeans(n_clusters=true_k, init='k-means++', max_iter=100, n_init=1,
 #                 verbose=opts.verbose)

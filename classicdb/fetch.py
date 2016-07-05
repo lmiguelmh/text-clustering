@@ -43,18 +43,36 @@ if six.PY3:
 else:
     from urllib2 import urlopen
 
-
 logger = logging.getLogger(__name__)
-
 
 # URL = ("http://www.dataminingresearch.com/download/dataset/classicdocs.rar")
 URL = ("https://sites.google.com/site/xchgdir/public/classic.tar.gz?attredirects=0&d=1")
-ARCHIVE_NAME = "classic.zip"
+ARCHIVE_NAME = "classic.tar.gz"
 CACHE_NAME = "classic.pkz"
-#ALL_FOLDER = "classic-all"
+# ALL_FOLDER = "classic-all"
 TRAIN_FOLDER = "classic-train"
 TEST_FOLDER = "classic-test"
 CLASSIC_HOME = "classic_home"
+
+
+def download_and_unzip(url, target_dir, archive_name):
+    archive_path = os.path.join(target_dir, archive_name)
+    if not os.path.exists(target_dir):
+        os.makedirs(target_dir)
+
+    if os.path.exists(archive_path):
+        logger.warning("Download was incomplete, downloading again.")
+        os.remove(archive_path)
+
+    logger.warning("Downloading dataset from %s", url)
+    opener = urlopen(url)
+    with open(archive_path, 'wb') as f:
+        f.write(opener.read())
+
+    logger.info("Decompressing %s", archive_path)
+    tarfile.open(archive_path, "r:gz").extractall(path=target_dir)
+    os.remove(archive_path)  # remove
+
 
 def download_classic(target_dir, cache_path):
     """Download the 20 newsgroups data and stored it as a zipped pickle."""
@@ -138,9 +156,9 @@ def download_classic(target_dir, cache_path):
 
 
 def fetch_classic(data_home=None, subset='all', categories=None,
-                       shuffle=True, random_state=42,
-                       remove=(),
-                       download_if_missing=True):
+                  shuffle=True, random_state=42,
+                  remove=(),
+                  download_if_missing=True):
     """Load the filenames and data from the 20 newsgroups dataset.
 
     Read more in the :ref:`User Guide <20newsgroups>`.
@@ -206,7 +224,7 @@ def fetch_classic(data_home=None, subset='all', categories=None,
     if cache is None:
         if download_if_missing:
             cache = download_classic(target_dir=classic_home,
-                                          cache_path=cache_path)
+                                     cache_path=cache_path)
         else:
             raise IOError('classic dataset not found')
 
@@ -266,7 +284,6 @@ def fetch_classic(data_home=None, subset='all', categories=None,
         data.data = data_lst.tolist()
 
     return data
-
 
 # def fetch_20newsgroups_vectorized(subset="train", remove=(), data_home=None):
 #     """Load the 20 newsgroups dataset and transform it into tf-idf vectors.
