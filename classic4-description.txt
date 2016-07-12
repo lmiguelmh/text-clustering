@@ -1,0 +1,31 @@
+http://www.dataminingresearch.com/index.php/2010/09/classic3-classic4-datasets/
+
+Classic3 and Classic4 DataSets
+By Volkan TUNALI, September 10, 2010 4:53 am
+
+One well known benchmark dataset used in text mining is the Classic collection that can be obtained from ftp://ftp.cs.cornell.edu/pub/smart/. This dataset consists of 4 different document collections: CACM, CISI, CRAN, and MED. These collections can be downloaded as one file per collection. In order to get the individual documents, a processing is needed to extract the title and document body. I have separated all these documents as individual documents and made available for public download. You can freely download the whole collection (1.5MB RAR file).
+
+The composition of the collection is as follows:
+
+    CACM: 3204 documents
+    CISI: 1460 documents
+    CRAN: 1398 documents
+    MED: 1033 documents
+
+This dataset is usually referred to as Classic3 dataset (CISI, CRAN and MED only), and sometimes referred to as Classic4 dataset.
+
+As a further step, I have preprocessed the whole dataset and obtained the document-term matrix in various forms. You can download the matrices and related files here (7.4MB RAR file). The list of the files are explained below:
+
+    docbyterm.mat: Term frequencies only (in Cluto’s MAT file format)
+    docbyterm.tfidf.mat: Weighted with TFIDF scheme (in Cluto’s MAT file format)
+    docbyterm.tfidf.norm.mat: Weighted with TFIDF scheme and normalized to 1 (in Cluto’s MAT file format)
+    docbyterm.txt: Term frequencies only (in Coordinate file format)
+    docbyterm.tfidf.txt: Weighted with TFIDF scheme (in Coordinate file format)
+    docbyterm.tfidf.norm.txt: Weighted with TFIDF scheme and normalized to 1 (in Coordinate file format)
+    documents.txt: List of the document names as they appear in the data matrix
+    terms.txt: List of terms that appear in the data matrix
+    terms_detailed.txt: A detailed list of terms (ie. term id, term, # of documents the term appears)
+
+As you see, preprocessing results are in two simple and well-known text file formats: Coordinate file and Cluto’s MAT file. In addition, term frequency, TFIDF, and normalized TFIDF weighting schemes are available. Terms are single words; that is, there are no n-grams. Minimum term length is 3. A term appears at least in 3 documents, and a term can appear at most 95% of the documents. Moreover, Porter’s stemming is applied while preprocessing.
+
+If you find these documents and data matrix files useful, please let me know with your comments. Any questions or criticism is also welcome.
